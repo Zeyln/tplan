@@ -1,4 +1,4 @@
-const CACHE = "train-v3.6";
+const CACHE = "train-v3.7";
 
 self.addEventListener("install", event => {
 	self.skipWaiting();

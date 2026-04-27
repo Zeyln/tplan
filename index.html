@@ -1,174 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0b0e1a">
+<meta name="theme-color" content="#eaf2ff">
 <link rel="apple-touch-icon" href="icon-192.png">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<title>Train</title>
+<title>Train+</title>
+
+<style>
+  body {
+    background: radial-gradient(circle at top, #eaf4ff, #d9ecff 40%, #f7fbff 100%);
+    overflow-x: hidden;
+  }
+
+  /* soft animated glow blobs */
+  .blob {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(90,160,255,0.35), transparent 70%);
+    filter: blur(40px);
+    animation: float 10s infinite ease-in-out;
+    z-index: 0;
+  }
+
+  .blob2 {
+    top: 200px;
+    right: -120px;
+    animation-delay: 2s;
+  }
+
+  .blob1 {
+    top: -80px;
+    left: -100px;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(30px) scale(1.1); }
+  }
+
+  /* smooth details animation */
+  details > div {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  details[open] > div {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
 </head>
 
-<body class="bg-[#0b0b0b] text-[#f0f2ff] p-4 font-sans">
+<body class="text-slate-800 font-sans relative">
+
+<!-- background glow -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
 
 <!-- UPDATE BAR -->
 <div id="updateBar"
-     class="fixed bottom-5 left-4 right-4 bg-[#1c2035] text-white px-4 py-3 rounded-xl hidden flex justify-between items-center text-sm shadow-xl">
-  <span>New version available</span>
+     class="fixed bottom-5 left-4 right-4 hidden justify-between items-center 
+            bg-white/70 backdrop-blur-xl border border-blue-100 
+            px-4 py-3 rounded-2xl shadow-lg z-50">
+  <span class="text-sm font-medium text-slate-700">New version available</span>
   <button onclick="updateApp()"
-          class="bg-[#5b8fff] px-3 py-2 rounded-lg font-semibold">
+          class="bg-blue-500 text-white px-4 py-2 rounded-xl shadow-md active:scale-95 transition">
     Update
   </button>
 </div>
 
 <!-- HEADER -->
-<div class="flex items-center gap-1 mb-4">
-  <h1 class="text-[22px] font-bold tracking-tight">TRAIN</h1>
-  <span class="text-blue-500 text-[22px] font-bold">+</span>
+<div class="relative z-10 flex items-center gap-2 px-1 pt-4 mb-5">
+  <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">TRAIN</h1>
+  <span class="text-blue-500 text-2xl font-black animate-pulse">+</span>
 </div>
 
 <!-- CARD -->
-<details class="bg-white/5 border border-white/10 rounded-2xl mb-3 overflow-hidden">
-  <summary class="list-none p-5 cursor-pointer">
-    <div class="text-xl font-bold">Sunday</div>
-    <div class="text-sm text-white/60 mt-1">Upper Body</div>
+<details class="group mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
+  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
+    <div class="text-lg font-bold">Sunday</div>
+    <div class="text-sm text-slate-500">Upper Body</div>
   </summary>
 
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span class="text-[15px]">Bench Press</span>
-    <span class="text-xs text-white/60">2x6</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Lat Pulldown</span>
-    <span class="text-xs text-white/60">3×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Incline Dumbbell Press</span>
-    <span class="text-xs text-white/60">2×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Seated Cable Row</span>
-    <span class="text-xs text-white/60">3×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Dips</span>
-    <span class="text-xs text-white/60">2x10</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Cable Curl</span>
-    <span class="text-xs text-white/60">2x10</span>
+  <div class="px-5 pb-4 space-y-3">
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Bench Press</span><span class="text-sm text-slate-500">2x6</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Lat Pulldown</span><span class="text-sm text-slate-500">3×8</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Incline DB Press</span><span class="text-sm text-slate-500">2×8</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Seated Cable Row</span><span class="text-sm text-slate-500">3×8</span>
+    </div>
   </div>
 </details>
 
 <!-- CARD -->
-<details class="bg-white/5 border border-white/10 rounded-2xl mb-3 overflow-hidden">
-  <summary class="list-none p-5 cursor-pointer">
-    <div class="text-xl font-bold">Tuesday</div>
-    <div class="text-sm text-white/60 mt-1">Lower Body</div>
+<details class="mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
+  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
+    <div class="text-lg font-bold">Tuesday</div>
+    <div class="text-sm text-slate-500">Lower Body</div>
   </summary>
 
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Barbell Back Squat</span>
-    <span class="text-xs text-white/60">3×6</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Romanian Deadlift</span>
-    <span class="text-xs text-white/60">3×6</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Incline DB Press</span>
-    <span class="text-xs text-white/60">3×10</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Leg Curl</span>
-    <span class="text-xs text-white/60">2×10</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Calf Raise</span>
-    <span class="text-xs text-white/60">3×12</span>
+  <div class="px-5 pb-4 space-y-3">
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Back Squat</span><span class="text-sm text-slate-500">3×6</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>RDL</span><span class="text-sm text-slate-500">3×6</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Leg Curl</span><span class="text-sm text-slate-500">2×10</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Calf Raise</span><span class="text-sm text-slate-500">3×12</span>
+    </div>
   </div>
 </details>
 
 <!-- CARD -->
-<details class="bg-white/5 border border-white/10 rounded-2xl mb-3 overflow-hidden">
-  <summary class="list-none p-5 cursor-pointer">
-    <div class="text-xl font-bold">Thursday</div>
-    <div class="text-sm text-white/60 mt-1">Lower / Upper</div>
+<details class="mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
+  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
+    <div class="text-lg font-bold">Thursday</div>
+    <div class="text-sm text-slate-500">Upper / Lower</div>
   </summary>
 
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Dumbbell Bench</span>
-    <span class="text-xs text-white/60">3x6</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Cable Row</span>
-    <span class="text-xs text-white/60">3×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Leg Press</span>
-    <span class="text-xs text-white/60">3×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Overhead Press</span>
-    <span class="text-xs text-white/60">2×8</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Lateral Raise</span>
-    <span class="text-xs text-white/60">2x12</span>
-  </div>
-
-  <div class="flex justify-between px-5 py-3 border-t border-white/5">
-    <span>Plank</span>
-    <span class="text-xs text-white/60">2xF</span>
+  <div class="px-5 pb-4 space-y-3">
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>DB Bench</span><span class="text-sm text-slate-500">3x6</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Cable Row</span><span class="text-sm text-slate-500">3×8</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Leg Press</span><span class="text-sm text-slate-500">3×8</span>
+    </div>
+    <div class="flex justify-between py-2 border-t border-blue-50">
+      <span>Lateral Raise</span><span class="text-sm text-slate-500">2×12</span>
+    </div>
   </div>
 </details>
 
-<!-- SERVICE WORKER LOGIC (unchanged) -->
 <script>
 let newWorker;
 
 navigator.serviceWorker.register("sw.js").then(reg => {
-
   reg.addEventListener("updatefound", () => {
     newWorker = reg.installing;
 
     newWorker.addEventListener("statechange", () => {
       if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-        document.getElementById("updateBar").style.display = "flex";
+        document.getElementById("updateBar").classList.remove("hidden");
+        document.getElementById("updateBar").classList.add("flex");
       }
     });
   });
-
 });
-function showUpdate(worker) {
-  newWorker = worker;
-  document.getElementById("updateBar").classList.remove("hidden");
-}
 
 function updateApp() {
-  if (newWorker) {
-    newWorker.postMessage({ type: "SKIP_WAITING" });
-  }
+  if (newWorker) newWorker.postMessage({ type: "SKIP_WAITING" });
 }
 </script>
 
