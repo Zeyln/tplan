@@ -1,7 +1,6 @@
-const CACHE = "train-v3.7";
+const CACHE = "train-v3.8";
 
 self.addEventListener("install", event => {
-	self.skipWaiting();
 	event.waitUntil(
 		caches.open(CACHE).then(cache => {
 			return cache.addAll([
@@ -17,9 +16,7 @@ self.addEventListener("activate", event => {
 	event.waitUntil(
 		caches.keys().then(keys =>
 			Promise.all(
-				keys.map(key => {
-					if (key !== CACHE) return caches.delete(key);
-				})
+				keys.map(key => key !== CACHE && caches.delete(key))
 			)
 		)
 	);
@@ -28,13 +25,13 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 	event.respondWith(
-		fetch(event.request)
-			.then(res => {
+		caches.match(event.request).then(cached => {
+			return cached || fetch(event.request).then(res => {
 				const copy = res.clone();
 				caches.open(CACHE).then(cache => cache.put(event.request, copy));
 				return res;
-			})
-			.catch(() => caches.match(event.request))
+			});
+		})
 	);
 });
 self.addEventListener("message", event => {
@@ -42,6 +39,4 @@ self.addEventListener("message", event => {
 		self.skipWaiting();
 	}
 });
-navigator.serviceWorker.addEventListener("controllerchange", () => {
-	location.reload();
-});
+
