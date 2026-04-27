@@ -13,176 +13,159 @@
 <title>Train+</title>
 
 <style>
+  html, body {
+    min-height: 100%;
+  }
+
   body {
     background: radial-gradient(circle at top, #eaf4ff, #d9ecff 40%, #f7fbff 100%);
+    background-attachment: fixed;
     overflow-x: hidden;
   }
 
-  /* soft animated glow blobs */
   .blob {
-    position: absolute;
+    position: fixed;
     width: 320px;
     height: 320px;
-    background: rgba(ffffffaa);
-    filter: blur(40px);
+    background: rgba(255, 255, 255, 0.45);
+    filter: blur(60px);
     animation: float 10s infinite ease-in-out;
     z-index: 0;
+    pointer-events: none;
   }
 
-  .blob2 {
-    top: 200px;
-    right: -120px;
-    animation-delay: 2s;
-  }
-
-  .blob1 {
-    top: -80px;
-    left: -100px;
-  }
+  .blob1 { top: -80px; left: -100px; }
+  .blob2 { top: 260px; right: -120px; animation-delay: 2s; }
 
   @keyframes float {
-    0%,100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(30px) scale(1.1); }
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50%       { transform: translateY(30px) scale(1.1); }
   }
 
-  /* smooth details animation */
   details > div {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.4s ease;
+    transition: max-height 0.45s ease, opacity 0.35s ease;
     opacity: 0;
   }
 
   details[open] > div {
-    max-height: 500px;
+    max-height: 700px;
     opacity: 1;
   }
 
-  summary {
-    list-style: none;
-  }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
 
-  summary::-webkit-details-marker {
-    display: none;
+  .card {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 1.5rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
   }
 </style>
 </head>
 
-<body class="text-slate-800 font-sans relative overflow-x-hidden">
+<body class="text-slate-800 font-sans">
 
-<!-- background glow -->
+<!-- Single background layer — fixed so it never repeats while scrolling -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
 <!-- UPDATE BAR -->
 <div id="updateBar"
-     class="fixed bottom-5 left-4 right-4 hidden justify-between items-center 
-            bg-white/70 backdrop-blur-xl border border-blue-100 
+     class="fixed bottom-5 left-4 right-4 hidden justify-between items-center
+            bg-white/80 border border-blue-100
             px-4 py-3 rounded-2xl shadow-lg z-50">
   <span class="text-sm font-medium text-slate-700">New version available</span>
   <button onclick="updateApp()"
-          class="bg-blue-500 text-white px-4 py-2 rounded-xl shadow-md active:scale-95 transition">
+          class="bg-blue-500 text-white px-4 py-2 rounded-xl active:scale-95 transition">
     Update
   </button>
 </div>
 
-<!-- HEADER -->
-<div class="relative z-10 flex items-center gap-2 px-1 pt-4 mb-5">
-  <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">TRAIN</h1>
-  <span class="text-blue-500 text-2xl font-black animate-pulse">+</span>
+<!-- PAGE -->
+<div class="relative z-10 px-4 pt-10 pb-10">
+
+  <!-- HEADER -->
+  <div class="flex items-center gap-1 mb-6">
+    <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">TRAIN</h1>
+    <span class="text-blue-500 text-2xl font-black animate-pulse">+</span>
+  </div>
+
+  <!-- Sunday -->
+  <details class="card">
+    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
+      <div class="text-lg font-bold">Sunday</div>
+      <div class="text-sm text-slate-500">Upper Body</div>
+    </summary>
+    <div class="px-5 pb-4">
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Bench Press</span><span class="text-sm text-slate-500">3×6</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Lat Pulldown</span><span class="text-sm text-slate-500">2×10</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Incline Dumbbell</span><span class="text-sm text-slate-500">2×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Seated Cable Row</span><span class="text-sm text-slate-500">3×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Dips</span><span class="text-sm text-slate-500">2×12</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Cable Curl</span><span class="text-sm text-slate-500">3×8</span></div>
+    </div>
+  </details>
+
+  <!-- Tuesday -->
+  <details class="card">
+    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
+      <div class="text-lg font-bold">Tuesday</div>
+      <div class="text-sm text-slate-500">Lower Body</div>
+    </summary>
+    <div class="px-5 pb-4">
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Barbell Back Squat</span><span class="text-sm text-slate-500">3×6</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Romanian Deadlift</span><span class="text-sm text-slate-500">3×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Bulgarian Split Squat</span><span class="text-sm text-slate-500">2×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Leg Curl</span><span class="text-sm text-slate-500">3×10</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Calf Raise</span><span class="text-sm text-slate-500">3×12</span></div>
+    </div>
+  </details>
+
+  <!-- Thursday -->
+  <details class="card">
+    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
+      <div class="text-lg font-bold">Thursday</div>
+      <div class="text-sm text-slate-500">Lower / Upper</div>
+    </summary>
+    <div class="px-5 pb-4">
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Dumbbell Bench</span><span class="text-sm text-slate-500">2×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Cable Row</span><span class="text-sm text-slate-500">3×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Leg Press</span><span class="text-sm text-slate-500">3×8</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Overhead Press</span><span class="text-sm text-slate-500">2×10</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Lateral Raises</span><span class="text-sm text-slate-500">2×12</span></div>
+      <div class="flex justify-between py-2 border-t border-blue-100"><span>Plank</span><span class="text-sm text-slate-500">2</span></div>
+    </div>
+  </details>
+
 </div>
-
-<!-- CARD -->
-<details class="group mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
-  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
-    <div class="text-lg font-bold">Sunday</div>
-    <div class="text-sm text-slate-500">Upper Body</div>
-  </summary>
-
-  <div class="px-5 pb-4 space-y-3">
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Bench Press</span><span class="text-sm text-slate-500">2x6</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Lat Pulldown</span><span class="text-sm text-slate-500">3×8</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Incline DB Press</span><span class="text-sm text-slate-500">2×8</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Seated Cable Row</span><span class="text-sm text-slate-500">3×8</span>
-    </div>
-  </div>
-</details>
-
-<!-- CARD -->
-<details class="mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
-  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
-    <div class="text-lg font-bold">Tuesday</div>
-    <div class="text-sm text-slate-500">Lower Body</div>
-  </summary>
-
-  <div class="px-5 pb-4 space-y-3">
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Back Squat</span><span class="text-sm text-slate-500">3×6</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>RDL</span><span class="text-sm text-slate-500">3×6</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Leg Curl</span><span class="text-sm text-slate-500">2×10</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Calf Raise</span><span class="text-sm text-slate-500">3×12</span>
-    </div>
-  </div>
-</details>
-
-<!-- CARD -->
-<details class="mb-4 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 shadow-lg overflow-hidden">
-  <summary class="p-5 cursor-pointer active:scale-[0.99] transition">
-    <div class="text-lg font-bold">Thursday</div>
-    <div class="text-sm text-slate-500">Upper / Lower</div>
-  </summary>
-
-  <div class="px-5 pb-4 space-y-3">
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>DB Bench</span><span class="text-sm text-slate-500">3x6</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Cable Row</span><span class="text-sm text-slate-500">3×8</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Leg Press</span><span class="text-sm text-slate-500">3×8</span>
-    </div>
-    <div class="flex justify-between py-2 border-t border-blue-50">
-      <span>Lateral Raise</span><span class="text-sm text-slate-500">2×12</span>
-    </div>
-  </div>
-</details>
 
 <script>
 let newWorker;
 
-navigator.serviceWorker.register("sw.js").then(reg => {
-  reg.addEventListener("updatefound", () => {
-    newWorker = reg.installing;
-
-    newWorker.addEventListener("statechange", () => {
-      if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-        document.getElementById("updateBar").classList.remove("hidden");
-        document.getElementById("updateBar").classList.add("flex");
-      }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register("sw.js").then(reg => {
+    reg.addEventListener("updatefound", () => {
+      newWorker = reg.installing;
+      newWorker.addEventListener("statechange", () => {
+        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+          const bar = document.getElementById("updateBar");
+          bar.classList.remove("hidden");
+          bar.classList.add("flex");
+        }
+      });
     });
   });
-});
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => location.reload());
+}
 
 function updateApp() {
   if (newWorker) newWorker.postMessage({ type: "SKIP_WAITING" });
 }
-navigator.serviceWorker.addEventListener("controllerchange", () => {
-	location.reload();
-});
 </script>
 
 </body>
