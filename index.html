@@ -15,7 +15,7 @@
         @apply p-5 cursor-pointer active:scale-[0.99] transition select-none;
       }
       .card-day {
-        @apply text-lg font-extrabold tracking-tight text-slate-100 bg-gradient-to-r from-slate-100 via-white to-blue-200 bg-clip-text text-transparent inline-block;
+        @apply text-lg font-extrabold tracking-tight text-slate-100 bg-gradient-to-r from-slate-100 via-white to-blue-100 bg-clip-text text-transparent inline-block;
       }
       .card-type {
         @apply text-sm text-slate-50;
@@ -27,7 +27,7 @@
         @apply flex justify-between py-2 border-t border-blue-100 text-slate-100;
       }
       .card-sets {
-        @apply text-sm text-slate-900 font-bold;
+        @apply text-sm text-slate-50 font-bold;
       }
     }
   </style>
@@ -47,17 +47,19 @@
 
   .blob {
     position: fixed;
-    width: 320px;
-    height: 320px;
+    width: 420px;
+    height: 420px;
     background: rgba(255, 255, 255, 0.45);
-    filter: blur(60px);
-    animation: float 10s infinite ease-in-out;
+    filter: blur(100px);
+    animation: float 3.5s infinite ease-in-out;
+    border-radius: 100rem;
     z-index: 0;
     pointer-events: none;
   }
 
   .blob1 { top: -80px; left: -100px; }
   .blob2 { top: 260px; right: -120px; animation-delay: 2s; }
+  .blob3 { top: 500px; right: 900px; animation-delay: 1.5s;}
 
   @keyframes float {
     0%, 100% { transform: translateY(0px) scale(1); }
@@ -80,11 +82,12 @@
   summary::-webkit-details-marker { display: none; }
 
   .card {
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(170, 170, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 1.5rem;
     margin-bottom: 1rem;
     overflow: hidden;
+    box-shadow: inset 5px 5px 10px rgba(255, 255, 255, 0.7);
   }
 </style>
 </head>
@@ -94,6 +97,7 @@
 <!-- Single background layer — fixed so it never repeats while scrolling -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
+<div class="blob blob3"></div>
 
 <!-- UPDATE BAR -->
 <div id="updateBar"
