@@ -10,6 +10,9 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <style type="text/tailwindcss">
+    html {
+      background-color: theme(colors.slate.900);
+    }
     @layer components {
       .card-summary {
         @apply p-5 cursor-pointer active:scale-[0.99] transition select-none;
@@ -39,27 +42,45 @@
     min-height: 100%;
   }
 
+  html {
+    background-color: black;
+  }
+
   body {
-    background: radial-gradient(circle at top, black, #0000aa 40%, #000011 100%);
-    background-attachment: fixed;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, black, #0000aa 40%, #000011 100%);
+    z-index: -1;
   }
 
   .blob {
     position: fixed;
-    width: 420px;
-    height: 420px;
+    width: 220px;
+    height: 220px;
     background: rgba(255, 255, 255, 0.45);
+    -webkit-filter: blur(100px);
     filter: blur(100px);
     animation: float 3.5s infinite ease-in-out;
-    border-radius: 100rem;
+    border-radius: 100%;
     z-index: 0;
     pointer-events: none;
-  }
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  } 
 
   .blob1 { top: -80px; left: -100px; }
   .blob2 { top: 260px; right: -120px; animation-delay: 2s; }
   .blob3 { top: 500px; right: 900px; animation-delay: 1.5s;}
+
+  @media (max-width: 767px) {
+    .blob2, .blob3 { display: none; }
+  }
 
   @keyframes float {
     0%, 100% { transform: translateY(0px) scale(1); }
@@ -69,14 +90,9 @@
   details > div {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 1.45s ease, opacity 1.35s ease;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
     opacity: 0;
-  }
-
-  details[open] > div {
-    max-height: 700px;
-    opacity: 1;
-  }
+  } 
 
   summary { list-style: none; }
   summary::-webkit-details-marker { display: none; }
@@ -168,7 +184,32 @@
   </details>
 
 </div>
+<script>
+// Smooth details animation
+document.querySelectorAll('details').forEach(el => {
+  const content = el.querySelector('.card-body');
 
+  el.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (el.open) {
+      // Closing
+      content.style.maxHeight = content.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+      });
+      content.addEventListener('transitionend', () => el.removeAttribute('open'), { once: true });
+    } else {
+      // Opening
+      el.setAttribute('open', '');
+      content.style.maxHeight = content.scrollHeight + 'px';
+      content.style.opacity = '1';
+      content.addEventListener('transitionend', () => content.style.maxHeight = 'none', { once: true });
+    }
+  });
+});
+</script>
 <script>
 let newWorker;
 
