@@ -9,6 +9,28 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 
 <script src="https://cdn.tailwindcss.com"></script>
+<style type="text/tailwindcss">
+    @layer components {
+      .card-summary {
+        @apply p-5 cursor-pointer active:scale-[0.99] transition select-none;
+      }
+      .card-day {
+        @apply text-lg font-extrabold tracking-tight text-slate-100 bg-gradient-to-r from-slate-100 via-white to-blue-200 bg-clip-text text-transparent inline-block;
+      }
+      .card-type {
+        @apply text-sm text-slate-50;
+      }
+      .card-body {
+        @apply px-5 pb-4;
+      }
+      .card-row {
+        @apply flex justify-between py-2 border-t border-blue-100 text-slate-100;
+      }
+      .card-sets {
+        @apply text-sm text-slate-900 font-bold;
+      }
+    }
+  </style>
 
 <title>Train+</title>
 
@@ -18,7 +40,7 @@
   }
 
   body {
-    background: radial-gradient(circle at top, #eaf4ff, #d9ecff 40%, #f7fbff 100%);
+    background: radial-gradient(circle at top, black, #0000aa 40%, #000011 100%);
     background-attachment: fixed;
     overflow-x: hidden;
   }
@@ -45,7 +67,7 @@
   details > div {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.45s ease, opacity 0.35s ease;
+    transition: max-height 1.45s ease, opacity 1.35s ease;
     opacity: 0;
   }
 
@@ -89,55 +111,55 @@
 <div class="relative z-10 px-4 pt-10 pb-10">
 
   <!-- HEADER -->
-  <div class="flex items-center gap-1 mb-6">
-    <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">TRAIN</h1>
+  <div class="flex items-center justify-center gap-1 mb-6">
+    <h1 class="text-2xl font-extrabold italic tracking-tight text-slate-50">TRAIN</h1>
     <span class="text-blue-500 text-2xl font-black animate-pulse">+</span>
   </div>
 
   <!-- Sunday -->
   <details class="card">
-    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
-      <div class="text-lg font-bold">Sunday</div>
-      <div class="text-sm text-slate-500">Upper Body</div>
+    <summary class="card-summary">
+      <div class="card-day">Sunday</div>
+      <div class="card-type">Upper Body</div>
     </summary>
-    <div class="px-5 pb-4">
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Bench Press</span><span class="text-sm text-slate-500">3×6</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Lat Pulldown</span><span class="text-sm text-slate-500">2×10</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Incline Dumbbell</span><span class="text-sm text-slate-500">2×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Seated Cable Row</span><span class="text-sm text-slate-500">3×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Dips</span><span class="text-sm text-slate-500">2×12</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Cable Curl</span><span class="text-sm text-slate-500">3×8</span></div>
+    <div class="card-body">
+      <div class="card-row"><span>Bench Press</span><span class="card-sets">3×6</span></div>
+      <div class="card-row"><span>Lat Pulldown</span><span class="card-sets">2×10</span></div>
+      <div class="card-row"><span>Incline Dumbbell</span><span class="card-sets">2×8</span></div>
+      <div class="card-row"><span>Seated Cable Row</span><span class="card-sets">3×8</span></div>
+      <div class="card-row"><span>Dips</span><span class="card-sets">2×12</span></div>
+      <div class="card-row"><span>Cable Curl</span><span class="card-sets">3×8</span></div>
     </div>
   </details>
 
   <!-- Tuesday -->
   <details class="card">
-    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
-      <div class="text-lg font-bold">Tuesday</div>
-      <div class="text-sm text-slate-500">Lower Body</div>
+    <summary class="card-summary">
+      <div class="card-day">Tuesday</div>
+      <div class="card-type">Lower Body</div>
     </summary>
-    <div class="px-5 pb-4">
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Barbell Back Squat</span><span class="text-sm text-slate-500">3×6</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Romanian Deadlift</span><span class="text-sm text-slate-500">3×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Bulgarian Split Squat</span><span class="text-sm text-slate-500">2×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Leg Curl</span><span class="text-sm text-slate-500">3×10</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Calf Raise</span><span class="text-sm text-slate-500">3×12</span></div>
+    <div class="card-body">
+      <div class="card-row"><span>Barbell Back Squat</span><span class="card-sets">3×6</span></div>
+      <div class="card-row"><span>Romanian Deadlift</span><span class="card-sets">3×8</span></div>
+      <div class="card-row"><span>Bulgarian Split Squat</span><span class="card-sets">2×8</span></div>
+      <div class="card-row"><span>Leg Curl</span><span class="card-sets">3×10</span></div>
+      <div class="card-row"><span>Calf Raise</span><span class="card-sets">3×12</span></div>
     </div>
   </details>
 
   <!-- Thursday -->
   <details class="card">
-    <summary class="p-5 cursor-pointer active:scale-[0.99] transition select-none">
-      <div class="text-lg font-bold">Thursday</div>
-      <div class="text-sm text-slate-500">Lower / Upper</div>
+    <summary class="card-summary">
+      <div class="card-day">Thursday</div>
+      <div class="card-type">Lower / Upper</div>
     </summary>
-    <div class="px-5 pb-4">
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Dumbbell Bench</span><span class="text-sm text-slate-500">2×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Cable Row</span><span class="text-sm text-slate-500">3×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Leg Press</span><span class="text-sm text-slate-500">3×8</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Overhead Press</span><span class="text-sm text-slate-500">2×10</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Lateral Raises</span><span class="text-sm text-slate-500">2×12</span></div>
-      <div class="flex justify-between py-2 border-t border-blue-100"><span>Plank</span><span class="text-sm text-slate-500">2</span></div>
+    <div class="card-body">
+      <div class="card-row"><span>Dumbbell Bench</span><span class="card-sets">2×8</span></div>
+      <div class="card-row"><span>Cable Row</span><span class="card-sets">3×8</span></div>
+      <div class="card-row"><span>Leg Press</span><span class="card-sets">3×8</span></div>
+      <div class="card-row"><span>Overhead Press</span><span class="card-sets">2×10</span></div>
+      <div class="card-row"><span>Lateral Raises</span><span class="card-sets">2×12</span></div>
+      <div class="card-row"><span>Plank</span><span class="card-sets">2</span></div>
     </div>
   </details>
 
