@@ -15,7 +15,7 @@
     }
     @layer components {
       .card-summary {
-        @apply p-5 cursor-pointer active:scale-[0.99] transition select-none;
+        @apply p-5 cursor-pointer transition select-none;
       }
       .card-day {
         @apply text-lg font-extrabold tracking-tight text-slate-100 bg-gradient-to-r from-slate-100 via-white to-blue-100 bg-clip-text text-transparent inline-block;
@@ -103,7 +103,13 @@
     border-radius: 1.5rem;
     margin-bottom: 1rem;
     overflow: hidden;
-    box-shadow: inset 5px 5px 10px rgba(255, 255, 255, 0.7); 
+    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.7), 2px 2px 5px rgba(255, 255, 255, 0.7); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .card.highlighted {
+    transform: translateY(-3px) scale(1.01);
+    background: rgba(190, 190, 255, 0.45);
+    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.85), 4px 6px 14px rgba(255, 255, 255, 0.5);
   }
 </style>
 </head>
@@ -185,6 +191,12 @@
 
 </div>
 <script>
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('highlighted'));
+    card.classList.add('highlighted');
+  });
+});
 // Smooth details animation
 document.querySelectorAll('details').forEach(el => {
   const content = el.querySelector('.card-body');
