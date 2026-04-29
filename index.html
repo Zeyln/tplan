@@ -98,18 +98,44 @@
   summary::-webkit-details-marker { display: none; }
 
   .card {
+    position: relative;
     background: rgba(170, 170, 255, 0.3);
-    border: 0px solid rgba(255, 255, 255, 0);
     border-radius: 1.5rem;
     margin-bottom: 1rem;
     overflow: hidden;
-    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.7), 2px 2px 5px rgba(255, 255, 255, 0.7); 
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.7), 2px 2px 5px rgba(255, 255, 255, 0.7);
+    transition: transform 0.5s ease 0.1s, box-shadow 0.2s ease, background 0.5s ease 0.1s;
   }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.08) 40%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease 0.1s;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .card.highlighted {
-    transform: translateY(-3px) scale(1.01);
+    transform: perspective(600px) rotateX(5deg) rotateY(0deg) scale(1.02);
     background: rgba(190, 190, 255, 0.45);
-    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.85), 4px 6px 14px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 5px 5px 10px 4px rgba(255, 255, 255, 0.7), 2px 2px 10px rgba(255, 255, 255, 0.7);
+  }
+
+  .card.highlighted::before {
+    opacity: 1;
+  } 
+  .card-row {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .card.highlighted .card-row {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
 </head>
@@ -191,63 +217,80 @@
 
 </div>
 <script>
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.card').forEach(c => c.classList.remove('highlighted'));
-    card.classList.add('highlighted');
-  });
-});
-// Smooth details animation
-document.querySelectorAll('details').forEach(el => {
+document.querySelectorAll('.card').forEach(el => {
+  const summary = el.querySelector('summary');
   const content = el.querySelector('.card-body');
 
-  el.addEventListener('click', e => {
+  summary.addEventListener('click', e => {
     e.preventDefault();
 
+    // Close and unhighlight all other cards
+    document.querySelectorAll('.card').forEach(c => {
+      if (c !== el && c.open) {
+        c.classList.remove('highlighted');
+        const body = c.querySelector('.card-body');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          body.style.maxHeight = '0';
+          body.style.opacity = '0';
+          body.style.paddingBottom = '0';
+        });
+        body.addEventListener('transitionend', () => c.removeAttribute('open'), { once: true });
+      }
+    });
+
+    // Toggle this card
     if (el.open) {
-      // Closing
+      // reset delays on close
+      el.querySelectorAll('.card-row').forEach(row => {
+        row.style.transitionDelay = '500ms';
+      });
       content.style.maxHeight = content.scrollHeight + 'px';
       requestAnimationFrame(() => {
         content.style.maxHeight = '0';
         content.style.opacity = '0';
         content.style.paddingBottom = '0';
       });
-      content.addEventListener('transitionend', () => el.removeAttribute('open'), { once: true });
+      content.addEventListener('transitionend', () => {
+        el.removeAttribute('open');
+        el.classList.remove('highlighted');
+      }, { once: true });
     } else {
-      // Opening
       el.setAttribute('open', '');
+      el.classList.add('highlighted');
+      // stagger delays on open
+      el.querySelectorAll('.card-row').forEach((row, i) => {
+        row.style.transitionDelay = `${i * 60}ms`;
+      });
       content.style.paddingBottom = '';
       content.style.maxHeight = content.scrollHeight + 'px';
       content.style.opacity = '1';
       content.addEventListener('transitionend', () => content.style.maxHeight = 'none', { once: true });
-    }
+    } 
   });
 });
-</script>
-<script>
+
 let newWorker;
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register("sw.js").then(reg => {
-    reg.addEventListener("updatefound", () => {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
       newWorker = reg.installing;
-      newWorker.addEventListener("statechange", () => {
-        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-          const bar = document.getElementById("updateBar");
-          bar.classList.remove("hidden");
-          bar.classList.add("flex");
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          const bar = document.getElementById('updateBar');
+          bar.classList.remove('hidden');
+          bar.classList.add('flex');
         }
       });
     });
   });
-
-  navigator.serviceWorker.addEventListener("controllerchange", () => location.reload());
+  navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
 }
 
 function updateApp() {
-  if (newWorker) newWorker.postMessage({ type: "SKIP_WAITING" });
+  if (newWorker) newWorker.postMessage({ type: 'SKIP_WAITING' });
 }
 </script>
-
 </body>
 </html>
