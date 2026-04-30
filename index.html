@@ -110,7 +110,7 @@
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    padding-bottom: 1rem;
+    padding-bottom: 0 !important;
     transition: max-height 0.4s ease, opacity 0.4s ease, padding-bottom 0.4s ease; 
   }
 
@@ -228,13 +228,15 @@ const DURATION = 400;
 
 function getHeight(el) {
   const body = el.querySelector('.card-body');
+  const prevMaxHeight = body.style.maxHeight;
+  const prevVisibility = body.style.visibility;
+  body.style.transition = 'none';
   body.style.maxHeight = 'none';
   body.style.visibility = 'hidden';
-  body.style.display = 'block';
   const h = body.scrollHeight;
-  body.style.maxHeight = '';
-  body.style.visibility = '';
-  body.style.display = '';
+  body.style.maxHeight = prevMaxHeight;
+  body.style.visibility = prevVisibility;
+  body.style.transition = '';
   return h;
 }
 
@@ -242,17 +244,22 @@ function closeCard(c) {
   const body = c.querySelector('.card-body');
   const h = getHeight(c);
   c.querySelectorAll('.card-row').forEach(row => row.style.transitionDelay = '0ms');
+
   body.style.maxHeight = h + 'px';
+  body.style.overflow = 'hidden';
   c.classList.remove('highlighted');
+
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       body.style.maxHeight = '0';
       body.style.opacity = '0';
-      body.style.paddingBottom = '0';
+      //body.style.paddingBottom = '0';
     });
   });
+
   setTimeout(() => {
     c.removeAttribute('open');
+    body.style.overflow = ''; 
   }, DURATION);
 }
 
@@ -260,7 +267,6 @@ function openCard(el) {
   const content = el.querySelector('.card-body');
   const rows = el.querySelectorAll('.card-row');
 
-  // Force rows back to hidden state first
   rows.forEach(row => {
     row.style.transitionDelay = '0ms';
     row.style.opacity = '0';
@@ -271,18 +277,17 @@ function openCard(el) {
   el.classList.add('highlighted');
   content.style.maxHeight = '0';
   content.style.opacity = '0';
-  content.style.paddingBottom = '1';
+  content.style.paddingBottom = '1rem';
   const h = getHeight(el);
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       content.style.maxHeight = h + 'px';
       content.style.opacity = '1';
+      //content.style.paddingBottom = '1rem';
 
-      // Stagger each row after container starts opening
       rows.forEach((row, i) => {
-        setTimeout(() => {
-          row.style.transitionDelay = '0ms';
+        setTimeout(() => { 
           row.style.opacity = '1';
           row.style.transform = 'translateY(0)';
         }, i * 70);
